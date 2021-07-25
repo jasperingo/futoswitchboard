@@ -1,0 +1,180 @@
+
+@font-face {
+    font-family: nunito;
+    src: url("../font/Nunito-Regular.ttf");
+}
+
+@font-face {
+    font-family: nunitobold;
+    src: url("../font/Nunito-Bold.ttf");
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    min-width: 300px;
+    min-height: 100%;
+    font-family:nunito, normal;
+}
+
+.ff-bold {
+    font-family:nunitobold;
+}
+
+.text-green {
+    color: #114234 !important;
+}
+
+.bg-green {
+    background-color: #114111 !important;
+}
+
+.form-error {
+    color: #FF0000;
+    padding: 5px;
+    margin: 5px auto 10px;
+    border: 1px solid #FF0000;
+}
+
+
+.main-form {
+    max-width: 500px;
+}
+
+.index-img {
+    height: 300px;
+}
+
+.input-group-text > svg {
+    width: 20px;
+    height: 20px;
+}
+
+.dashboard-header-button > svg {
+    width: 40px;
+    height: 40px;
+    fill: #114111;
+}
+
+
+.dashboard-nav {
+    animation-name: scale-upx;
+    animation-duration: 1s;
+}
+
+.dashboard-nav > ul {
+    text-align: center;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.dashboard-nav > ul > li {
+    display: inline-block;
+}
+
+.scale-up {
+    animation-name: scale-up;
+    animation-duration: 1s;
+}
+
+.scale-upx {
+    animation-name: scale-upx;
+    animation-duration: 1s;
+}
+
+.slide-in-left {
+    animation-name: slide-in-left;
+    animation-duration: 1s;
+}
+
+.slide-in-right {
+    animation-name: slide-in-right;
+    animation-duration: 1s;
+}
+
+
+.fade-in {
+    animation-name: fade-in;
+    animation-duration: 1s;
+}
+
+@keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes scale-up {
+    0% { transform: scale(0, 0); }
+    50% { transform: scale(1.2, 1.2); }
+    100% { transform: scale(1, 1); }
+}
+
+@keyframes scale-upx {
+    0% { transform: scale(0, 0); }
+    100% { transform: scale(1, 1); }
+}
+
+@keyframes slide-in-left {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(0%); }
+}
+
+@keyframes slide-in-right {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(0%); }
+}
+
+
+@media only screen and (min-width: 768px) {
+    
+    .dashboard-header {
+        margin-left: 300px;
+    }
+    
+    .dashboard-nav {
+       top: 0;
+       left: 0;
+       bottom: 0;
+       width: 300px;
+       position: fixed;
+       overflow-y: auto;
+       animation-name: none;
+       border-right: 1px solid #DCDCDC;
+    }
+    
+    .dashboard-nav > ul {
+        text-align: left;
+        white-space:  normal;
+    }
+    
+    .dashboard-nav > ul > li {
+        display: block;
+    }
+    
+    .dashboard-section {
+        margin-left: 300px;
+    }
+    
+    .nav-slide-in-left {
+        animation-name: slide-in-left;
+        animation-duration: 1s;
+    }
+    
+    .nav-slide-in-leftx {
+        transform: translateX(-120%);
+        animation-name: slide-in-left;
+        animation-duration: 1s;
+        animation-delay: 0.2s;
+        animation-fill-mode: forwards;
+    }
+    
+    
+}
+
+
+
+
+
+
