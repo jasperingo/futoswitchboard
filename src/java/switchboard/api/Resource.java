@@ -1,8 +1,6 @@
 
 package switchboard.api;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.POST;
@@ -13,7 +11,6 @@ import switchboard.api.response.GetDigits;
 import switchboard.api.response.Play;
 import switchboard.api.response.Reject;
 import switchboard.api.response.SResponse;
-import switchboard.api.response.Say;
 import switchboard.database.CallReportDB;
 import switchboard.database.ExtensionDB;
 import switchboard.models.CallReport;
@@ -49,11 +46,11 @@ public class Resource {
         getDigits.setTimeout(20);
         getDigits.setCallbackUrl("http://switchboard.iftlab.com.ng:8080/SB/api/v1/route");
         
-        Say say = new Say();
-        say.setValue("We did not get your extension code. Good bye");
+        Play splay = new Play();
+        splay.setUrl("https://res.cloudinary.com/dvsscfior/video/upload/v1627402955/Switchboard/3_bs0ccm.mp3");
         
         response.setGetDigits(getDigits);
-        response.setSay(say);
+        response.setPlay(splay);
         
         return response;
     }
@@ -67,29 +64,34 @@ public class Resource {
         @FormParam("callerNumber") String callerNum, 
         @FormParam("callStartTime") String callStartTime,
         @FormParam("dtmfDigits") String extCode, 
-        @FormParam("recordingUrl")String recordingUrl
+        @FormParam("recordingUrl")String recordingUrl,
+        @FormParam("amount") String amount,
+        @FormParam("durationInSeconds")String duration
     ) {
         
+        if (!isActive.equals("1")) {
+            endCall(sessionId, amount, callStartTime, duration, recordingUrl);
+            return null;
+        }
+        
         SResponse response = new SResponse();
-        Say sayError = new Say();
-        sayError.setVoice("woman");
-        sayError.setPlayBeep(false);
-        sayError.setValue("There was an error, please try again.");
+        Play playError = new Play();
+        playError.setUrl("https://res.cloudinary.com/dvsscfior/video/upload/v1627402954/Switchboard/2_yll63k.mp3");
         
         if (extCode == null || extCode.isEmpty()) {
-            sayError.setValue("Please enter a valid extension code.");
-            response.setSay(sayError);
+            playError.setUrl("https://res.cloudinary.com/dvsscfior/video/upload/v1627402957/Switchboard/4_sgbye5.mp3");
+            response.setPlay(playError);
             return response;
         }
         
         Extension extension = ExtensionDB.findByCode(extCode);
         
         if (extension == null) {
-            response.setSay(sayError);
+            response.setPlay(playError);
             return response;
         } else if (extension.getId() < 1) {
-            sayError.setValue("You entered an invalid extension code. Good bye");
-            response.setSay(sayError);
+            playError.setUrl("https://res.cloudinary.com/dvsscfior/video/upload/v1627402958/Switchboard/5_atahih.mp3");
+            response.setPlay(playError);
             return response;
         }
         
@@ -98,22 +100,22 @@ public class Resource {
         report.setStatus(CallReport.STATUS_ACTIVE);
         report.setSessionId(sessionId);
         report.setStaffExtension(extension.getStaffExtensions().get(0));
-        //report.setStartedAt(LocalDateTime.parse(callStartTime, DateTimeFormatter.ISO_DATE));
+        report.setStartedAt(callStartTime);
         
         
         if (extension.isSecured()) {
             
             report.setStatus(CallReport.STATUS_PENDING);
              if (!CallReportDB.insert(report)) {
-                response.setSay(sayError);
+                response.setPlay(playError);
                 return response;
             }
              
-            Say say = new Say();
-            say.setValue("Please enter access pin");
+            Play play = new Play();
+            play.setUrl("https://res.cloudinary.com/dvsscfior/video/upload/v1627402957/Switchboard/6_wy80io.mp3");
 
             GetDigits getDigits = new GetDigits();
-            getDigits.setSay(say);
+            getDigits.setPlay(play);
             getDigits.setFinishOnKey("#");
             getDigits.setTimeout(20);
             getDigits.setCallbackUrl("http://switchboard.iftlab.com.ng:8080/SB/api/v1/secured");
@@ -124,7 +126,7 @@ public class Resource {
         
         
         if (!CallReportDB.insert(report)) {
-            response.setSay(sayError);
+            response.setPlay(playError);
             return response;
         }
         
@@ -142,24 +144,29 @@ public class Resource {
         @FormParam("isActive") String isActive, 
         @FormParam("sessionId") String sessionId,
         @FormParam("dtmfDigits") String pin, 
-        @FormParam("recordingUrl")String recordingUrl
+        @FormParam("recordingUrl")String recordingUrl,
+        @FormParam("amount") String amount,
+        @FormParam("callStartTime") String callStartTime,
+        @FormParam("durationInSeconds")String duration
     ) {
         
-        SResponse response = new SResponse();
-        Say sayError = new Say();
-        sayError.setVoice("woman");
-        sayError.setPlayBeep(false);
-        sayError.setValue("There was an error, please try again.");
+        if (!isActive.equals("1")) {
+            endCall(sessionId, amount, callStartTime, duration, recordingUrl);
+            return null;
+        }
         
+        SResponse response = new SResponse();
+        Play playError = new Play();
+        playError.setUrl("https://res.cloudinary.com/dvsscfior/video/upload/v1627402954/Switchboard/2_yll63k.mp3");
         
         CallReport report = CallReportDB.findBySessionId(sessionId);
         
         if (report == null) {
-            response.setSay(sayError);
+            response.setPlay(playError);
             return response;
         } else if (report.getId() < 1) {
-            sayError.setValue("This session has ended. Good bye");
-            response.setSay(sayError);
+            playError.setUrl("https://res.cloudinary.com/dvsscfior/video/upload/v1627402958/Switchboard/1_upoe9h.mp3");
+            response.setPlay(playError);
             return response;
         }
         
@@ -167,37 +174,30 @@ public class Resource {
             
             int result = CallReportDB.updateStatus(CallReport.STATUS_ACTIVE, report.getId());
             if (result <= 0) {
-                response.setSay(sayError);
+                response.setPlay(playError);
                 return response;
             }
             
             response.setDial(makeDial(report.getStaffExtension().getStaff().getPhoneNumber()));
             
         } else {
-            sayError.setValue("You entered an incorrect pin, your call cannot be connected.");
-            response.setSay(sayError);
+            playError.setUrl("https://res.cloudinary.com/dvsscfior/video/upload/v1627402959/Switchboard/7_yjg4tk.mp3");
+            response.setPlay(playError);
         }
         
         return response;
     }
     
     
-    @POST
-    @Path("end")
-    public SResponse endCall(
-        @FormParam("isActive") String isActive, 
-        @FormParam("sessionId") String sessionId,
-        @FormParam("amount") String amount,
-        @FormParam("callStartTime") String callStartTime,
-        @FormParam("durationInSeconds")String duration, 
-        @FormParam("recordingUrl")String recordingUrl) {
-        
-        
+    public void endCall(
+        String sessionId,
+        String amount,
+        String callStartTime,
+        String duration, 
+        String recordingUrl
+    ) {
         CallReportDB.updateStatusWhenCallEnds(recordingUrl, 
                 Integer.parseInt(duration), Double.parseDouble(amount), sessionId);
-        
-        return null;
-        
     }
     
     
