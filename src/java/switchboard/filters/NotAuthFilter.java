@@ -22,8 +22,7 @@ import switchboard.models.Administrator;
     "/logout", 
     "/staff", 
     "/department",
-    "/call-reports",
-    "/recordings"
+    "/call-reports"
 })
 public class NotAuthFilter implements Filter {
     

@@ -1,6 +1,8 @@
 
 package switchboard.models;
 
+import java.util.List;
+
 
 public class Extension extends Entity {
     
@@ -13,6 +15,8 @@ public class Extension extends Entity {
     private boolean secured;
     
     private String pin;
+    
+    private List<StaffExtension> staffExtensions; 
     
     
     public Department getDepartment() {
@@ -45,6 +49,14 @@ public class Extension extends Entity {
 
     public void setPin(String pin) {
         this.pin = pin;
+    }
+    
+    public List<StaffExtension> getStaffExtensions() {
+        return staffExtensions;
+    }
+
+    public void setStaffExtensions(List<StaffExtension> staffExtensions) {
+        this.staffExtensions = staffExtensions;
     }
     
     

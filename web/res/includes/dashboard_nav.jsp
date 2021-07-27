@@ -38,16 +38,9 @@
         </li>
 
         <li>
-            <a href="call-reports.jsp" class="nav-slide-in-leftx list-group-item my-4 rounded-end 
+            <a href="call-reports" class="nav-slide-in-leftx list-group-item my-4 rounded-end 
                <%= request.getServletPath().equals("/call-reports.jsp") ? "list-group-item-success" : "" %>">
                 <span>Call reports</span>
-            </a>
-        </li>
-
-        <li>
-            <a href="recordings.jsp" class="nav-slide-in-left list-group-item my-4 rounded-end 
-               <%= request.getServletPath().equals("/recordings.jsp") ? "list-group-item-success" : "" %>">
-                <span>Recordings</span>
             </a>
         </li>
 
@@ -59,5 +52,4 @@
     </ul>
 </nav>
            
-                
-                
+        

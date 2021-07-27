@@ -24,7 +24,7 @@
         <main>
             
             <div class="container">
-                
+                <% System.out.println(exception); %>
                 <h2 class="text-danger fw-bold mt-4">Oops! <%= request.getAttribute("javax.servlet.error.status_code")%> error occurred</h2>
                 
 		<h3 class="mt-4"> At this url: <%= request.getAttribute("javax.servlet.error.request_uri")%></h3>

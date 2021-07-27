@@ -15,11 +15,15 @@
 
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
+                    
                     <li class="nav-item">
-                        <a class="nav-link text-green" href="#">About us</a>
+                        <span class="d-inline-block" style="width: 20px">
+                            <%@ include file="../icon/phone.svg" %>
+                        </span>
+                        <span class="nav-link d-inline-block text-green" href="#">+234-802-276-5961</span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-green" href="#">Contact us</a>
+                        <a class="nav-link text-green" href="about.jsp">About us</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-green" href="login">Log In</a>

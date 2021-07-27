@@ -39,6 +39,11 @@ body {
 }
 
 
+header li svg {
+    fill: #114111;
+}
+
+
 .main-form {
     max-width: 500px;
 }

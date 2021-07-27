@@ -22,7 +22,7 @@
     <script type="text/javascript" src="res/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="res/js/jquery3.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="res/css/app.css?dvvf" />
+    <link rel="stylesheet" type="text/css" href="res/css/app.css?aa" />
     
 
 </head>

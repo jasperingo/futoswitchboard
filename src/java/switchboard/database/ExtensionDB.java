@@ -5,10 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static switchboard.database.Database.getConnection;
+import switchboard.models.Department;
 import switchboard.models.Extension;
+import switchboard.models.Staff;
+import switchboard.models.StaffExtension;
 
 
 public class ExtensionDB extends Database {
@@ -94,6 +99,55 @@ public class ExtensionDB extends Database {
         
     }
     
+    public static Extension findByCode(String extCode) {
+        
+        String query = String.format(
+                "SELECT staff.phone_number, staff_extension.id, "
+                + "extension.code, extension.secured "
+                + "FROM %s INNER JOIN %s "
+                + "ON staff_extension.extension_id = extension.id "
+                + "INNER JOIN %s "
+                + "ON staff.id = staff_extension.staff_id "
+                + "WHERE extension.code = ?", 
+                
+                Extension.TABLE, StaffExtension.TABLE, Staff.TABLE);
+        
+        try(PreparedStatement pstmt = getConnection().prepareStatement(query)){
+            
+            pstmt.setString(1, extCode);
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            if(rs.next()){
+                
+                Extension ext = new Extension();
+                ext.setCode(rs.getString("code"));
+                ext.setSecured(rs.getBoolean("secured"));
+                
+                Staff s = new Staff();
+                s.setPhoneNumber(rs.getString("phone_number"));
+
+                StaffExtension se = new StaffExtension();
+                se.setId(rs.getLong("id"));
+                se.setStaff(s);
+                
+                List<StaffExtension> list = new ArrayList<>();
+                list.add(se);
+                ext.setStaffExtensions(list);
+                
+                return ext;
+            }
+            
+            return new Extension();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ExtensionDB.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
     
     
 }
+
+

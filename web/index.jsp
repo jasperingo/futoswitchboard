@@ -35,7 +35,7 @@
                         </div>
                         
                         <div class="slide-in-right mt-5 mt-md-auto col-md-6">
-                            <img src="res/img/index.png" alt="An image of happy people" class="index-img d-block w-100" width="300" height="300" />
+                            <img src="res/icon/call-center.svg" alt="An image of happy people" class="index-img d-block w-100" width="300" height="300" />
                         </div>
                     
                     </div>

@@ -26,7 +26,7 @@
                     <% if (data.hasError()) { %>
                     <div class="alert alert-danger" role="alert"><%= data.getFormError() %></div>
                     <% } %>
-    
+                    
                     <div class="input-group mb-3">
                         <label class="visually-hidden" for="phone_number_input">Phone number</label>
                         <div class="input-group-text"><%@ include file="res/icon/phone.svg" %></div>
