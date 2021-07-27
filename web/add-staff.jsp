@@ -24,7 +24,7 @@
                     
                     <% FlashMessage data = new FlashMessage(session); %>
                     
-                    <form method="POST" action="" class="main-form my-5 mx-auto p-4 rounded shadow"novalidate="">
+                    <form method="POST" action="" class="main-form my-5 mx-auto p-4 rounded shadow">
                         
                         <h2 class="text-center text-green mb-3 ff-bold">Add Staff</h2>
                         
