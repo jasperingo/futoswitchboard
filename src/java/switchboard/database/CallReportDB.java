@@ -25,8 +25,8 @@ public class CallReportDB extends Database {
                 + "caller_number, "
                 + "session_id, "
                 + "staff_extension_id, "
-                + "status)"
-                //+ "started_at) "
+                + "status,"
+                + "started_at) "
                 + "VALUES (?, ?, ?, ?)", CallReport.TABLE);
         
         try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
@@ -35,8 +35,8 @@ public class CallReportDB extends Database {
             pstmt.setString(2, report.getSessionId());
             pstmt.setLong(3, report.getStaffExtension().getId());
             pstmt.setString(4, report.getStatus());
-            //pstmt.setObject(5, report.getStartedAt());
-                                    
+            pstmt.setString(5, report.getStartedAt());
+                     
             int rows = pstmt.executeUpdate();
             
             if (rows < 1) {

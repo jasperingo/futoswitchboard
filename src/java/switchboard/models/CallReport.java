@@ -1,8 +1,6 @@
 
 package switchboard.models;
 
-import java.time.LocalDateTime;
-
 
 public class CallReport extends Entity {
     
@@ -25,7 +23,7 @@ public class CallReport extends Entity {
     
     private String status;
     
-    private LocalDateTime startedAt;
+    private String startedAt;
     
     private int duration;
     
@@ -72,11 +70,11 @@ public class CallReport extends Entity {
         this.status = status;
     }
 
-    public LocalDateTime getStartedAt() {
+    public String getStartedAt() {
         return startedAt;
     }
 
-    public void setStartedAt(LocalDateTime startedAt) {
+    public void setStartedAt(String startedAt) {
         this.startedAt = startedAt;
     }
 
